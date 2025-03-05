@@ -122,7 +122,7 @@ export default function Quiz() {
           <DifficultyIndicator difficulty={currentQuestion.difficulty} />
           <div className="flex items-center text-white">
             <FaClock className="mr-1" />
-            <Timer isAnswerSubmitted={isAnswerSubmitted} />
+            <Timer handleSubmit={handleSubmit} isAnswerSubmitted={isAnswerSubmitted} />
           </div>
         </div>
 

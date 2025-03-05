@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { useQuizStore } from '../../../store/quizStore';
 
-export default function Timer({isAnswerSubmitted}: {isAnswerSubmitted: boolean}) {
+export default function Timer({isAnswerSubmitted,handleSubmit}: {isAnswerSubmitted: boolean,handleSubmit: () => void}) {
 
-  const { decrementTimer, startTimer, questions, currentQuestionIndex, timeLeft, handleSubmit } = useQuizStore();
+  const { decrementTimer, startTimer, questions, currentQuestionIndex, timeLeft } = useQuizStore();
   const [timeLeftWarning, setTimeLeftWarning] = useState(false);
 
   useEffect(() => {

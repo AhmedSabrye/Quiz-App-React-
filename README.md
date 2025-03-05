@@ -19,42 +19,10 @@ A fully functional and responsive quiz application built with React, Zustand, an
 - TailwindCSS (for styling)
 - React Router (for routing)
 - Axios (for API requests)
-- Open Trivia Database API
+- Trivia Database API
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js (v14 or later)
-- npm
-
-### Installation
-
-1. Clone the repository
-
-```
-git clone <repository-url>
-```
-
-2. Navigate to the project directory
-
-```
-cd react-quiz-app
-```
-
-3. Install dependencies
-
-```
-npm install
-```
-
-4. Start the development server
-
-```
-npm run dev
-```
-
-5. Open your browser and navigate to `http://localhost:5173`
 
 ## Usage
 
@@ -75,6 +43,3 @@ npm run dev
 
 6. Click "Return to Home" to start a new quiz
 
-## License
-
-MIT
