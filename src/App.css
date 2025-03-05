@@ -1,0 +1,112 @@
+/* App-level styles */
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade out animation for correct/incorrect feedback */
+.animate-fade-out {
+  animation: fadeOut 1.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Circle completion animation */
+.animate-circle-completion {
+  animation: circleCompletion 1.5s ease-in-out forwards;
+}
+
+@keyframes circleCompletion {
+  0% {
+    stroke-dashoffset: 283; /* Approximately 2 * Math.PI * 45 */
+  }
+}
+
+/* Count up animation */
+.animate-count-up {
+  animation: countUp 1.5s ease-in-out forwards;
+}
+
+@keyframes countUp {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Custom shadow */
+.shadow-3xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Prevent overflow on input number spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+  margin-right: 8px;
+}
+
+/* Improve focus states for accessibility */
+:focus {
+  outline: none;
+}
+
+.focus-visible:focus {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .max-w-3xl {
+    max-width: 100% !important;
+  }
+
+  button,
+  .bg-gradient-to-br {
+    display: none !important;
+  }
+
+  .shadow-2xl,
+  .rounded-2xl {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  .bg-white {
+    background: white !important;
+    border: 1px solid #e5e7eb !important;
+  }
+}
