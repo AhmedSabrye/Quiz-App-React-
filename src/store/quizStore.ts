@@ -256,7 +256,6 @@ export const useQuizStore = create<QuizState>()(
           currentQuestionIndex,
           questions,
           userAnswers,
-          selectedAnswers,
         } = get();
 
         if (timeLeft > 0) {
