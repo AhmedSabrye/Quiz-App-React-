@@ -1,0 +1,60 @@
+Q.What is the capital of France:
+1.Berlin
+2.Madrid
+3.Paris (true)
+4.London
+
+Q.Which of these are mammals:
+1.Dolphin (true)
+2.Shark
+3.Elephant (true)
+4.Eagle
+5.Bat (true)
+
+Q.The Earth is flat:
+True
+False (true)
+
+Q.Which programming languages are statically typed:
+1.JavaScript
+2.Java (true)
+3.Python
+4.C++ (true)
+5.TypeScript (true)
+
+Q.HTML stands for Hyper Text Markup Language:
+True (true)
+False
+
+Q.Which planets have rings:
+1.Earth
+2.Saturn (true)
+3.Jupiter (true)
+4.Mars
+5.Uranus (true)
+
+Q.Who is the author of "Harry Potter" series:
+1.Stephen King
+2.J.K. Rowling (true)
+3.George R.R. Martin
+4.Dan Brown
+
+Q.Which of these countries are in Asia:
+1.China (true)
+2.Egypt
+3.Brazil
+4.India (true)
+5.Japan (true)
+6.Germany
+
+Q.Which elements are metals:
+1.Gold (true)
+2.Oxygen
+3.Carbon
+4.Silver (true)
+5.Copper (true)
+6.Chlorine
+
+Q.There are 24 hours in a day:
+True (true)
+False 

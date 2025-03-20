@@ -1,0 +1,49 @@
+Q.What is the capital of Japan:
+1.Beijing
+2.Seoul
+3.Tokyo (true)
+4.Bangkok
+
+Q.The Great Wall of China is visible from space:
+True
+False (true)
+
+Q.Which of these animals is a mammal:
+1.Shark
+2.Eagle
+3.Snake
+4.Dolphin (true)
+
+Q.HTML stands for Hyper Text Markup Language:
+True (true)
+False
+
+Q.Who is the author of "Harry Potter" series:
+1.Stephen King
+2.J.K. Rowling (true)
+3.George R.R. Martin
+4.Dan Brown
+
+Q.The sun revolves around the Earth:
+True
+False (true)
+
+Q.Which of these is a prime number:
+1.12
+2.15
+3.17 (true)
+4.21
+
+Q.Water boils at 100 degrees Celsius at sea level:
+True (true)
+False
+
+Q.Which continent is Egypt located in:
+1.Asia
+2.Europe
+3.Africa (true)
+4.South America
+
+Q.An octopus has 6 tentacles:
+True
+False (true) 

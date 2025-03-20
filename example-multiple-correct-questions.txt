@@ -1,0 +1,72 @@
+Q.Which of these are programming languages:
+1.Python (true)
+2.Excel
+3.JavaScript (true)
+4.HTML
+
+Q.Which fruits are citrus fruits:
+1.Apple
+2.Orange (true)
+3.Lemon (true)
+4.Banana
+5.Grapefruit (true)
+
+Q.Select all planets in our solar system:
+1.Mercury (true)
+2.Venus (true)
+3.Moon
+4.Mars (true)
+5.Pluto
+
+Q.Which of these animals are mammals:
+1.Dolphin (true)
+2.Shark
+3.Elephant (true)
+4.Eagle
+5.Bat (true)
+
+Q.Which of these countries are in Europe:
+1.France (true)
+2.Egypt
+3.Italy (true)
+4.Brazil
+5.Spain (true)
+6.Japan
+
+Q.Select all programming languages that are statically typed:
+1.JavaScript
+2.Java (true)
+3.Python
+4.C++ (true)
+5.TypeScript (true)
+
+Q.Which of these elements are noble gases:
+1.Oxygen
+2.Helium (true)
+3.Neon (true)
+4.Nitrogen
+5.Argon (true)
+
+Q.Which of these movies won an Oscar for Best Picture:
+1.Titanic (true)
+2.Avatar
+3.Parasite (true)
+4.The Godfather (true)
+5.Star Wars
+
+Q.Select all prime numbers:
+1.2 (true)
+2.4
+3.7 (true)
+4.9
+5.11 (true)
+6.13 (true)
+7.15
+
+Q.Which of these are web browsers:
+1.Firefox (true)
+2.Excel
+3.Chrome (true)
+4.Photoshop
+5.Safari (true)
+6.Edge (true) 

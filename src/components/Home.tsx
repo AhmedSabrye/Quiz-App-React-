@@ -2,10 +2,13 @@ import { useQuizStore } from "../store/quizStore";
 import { FaBrain, FaLightbulb } from "react-icons/fa";
 import FeatureCard from "./subcomponents/home/FeatureCard";
 import QuizForm from "./mainSubComponents/QuizForm";
+import CustomQuizForm from "./mainSubComponents/CustomQuizForm";
 import { useShallow } from "zustand/shallow";
+import { useState } from "react";
 
 export default function Home() {
-  const  error  = useQuizStore(useShallow(state=> state.error));
+  const error = useQuizStore(useShallow((state) => state.error));
+  const [activeTab, setActiveTab] = useState<"api" | "custom">("api");
 
   return (
     <div className="min-h-screen flex justify-center items-center py-8 px-4 sm:px-6">
@@ -72,8 +75,37 @@ export default function Home() {
         </div>
 
         <div className="bg-white bg-opacity-90 rounded-xl p-6 shadow-lg">
+          <div className="mb-6">
+            <div className="flex border-b border-gray-200">
+              <button
+                onClick={() => setActiveTab("api")}
+                className={`px-4 py-2 font-medium text-sm flex-1 ${
+                  activeTab === "api"
+                    ? "border-b-2 border-indigo-500 text-indigo-600"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+                aria-current={activeTab === "api" ? "page" : undefined}
+              >
+                Use Trivia API
+              </button>
+              <button
+                onClick={() => setActiveTab("custom")}
+                className={`px-4 py-2 font-medium text-sm flex-1 ${
+                  activeTab === "custom"
+                    ? "border-b-2 border-indigo-500 text-indigo-600"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+                aria-current={activeTab === "custom" ? "page" : undefined}
+              >
+                Create Your Own
+              </button>
+            </div>
+          </div>
+
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-            Customize Your Quiz
+            {activeTab === "api"
+              ? "Customize Your Quiz"
+              : "Create Your Own Quiz"}
           </h2>
 
           {error && (
@@ -82,10 +114,9 @@ export default function Home() {
             </div>
           )}
 
-          <QuizForm />
+          {activeTab === "api" ? <QuizForm /> : <CustomQuizForm />}
         </div>
       </div>
-      
     </div>
   );
 }

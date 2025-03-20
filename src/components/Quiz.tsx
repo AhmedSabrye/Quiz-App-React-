@@ -11,6 +11,7 @@ import FeedbackAnimation from "./subcomponents/quiz/FeedbackAnimation";
 import ActionButtons from "./subcomponents/quiz/ActionButtons";
 import Timer from "./subcomponents/quiz/Timer";
 import { useShallow } from "zustand/react/shallow";
+
 export default function Quiz() {
   const navigate = useNavigate();
   const {
@@ -20,26 +21,47 @@ export default function Quiz() {
     error,
     nextQuestion,
     submitAnswer,
+    submitMultipleAnswers,
+    toggleAnswerSelection,
+    selectedAnswers,
     resetTimer,
     quizFinished,
-  } = useQuizStore(useShallow(state => ({
-    questions: state.questions,
-    currentQuestionIndex: state.currentQuestionIndex,
-    loading: state.loading,
-    error: state.error,
-    nextQuestion: state.nextQuestion,
-    submitAnswer: state.submitAnswer,
-    resetTimer: state.resetTimer,
-    quizFinished: state.quizFinished,
-  })));
+  } = useQuizStore(
+    useShallow((state) => ({
+      questions: state.questions,
+      currentQuestionIndex: state.currentQuestionIndex,
+      loading: state.loading,
+      error: state.error,
+      nextQuestion: state.nextQuestion,
+      submitAnswer: state.submitAnswer,
+      submitMultipleAnswers: state.submitMultipleAnswers,
+      toggleAnswerSelection: state.toggleAnswerSelection,
+      selectedAnswers: state.selectedAnswers,
+      resetTimer: state.resetTimer,
+      quizFinished: state.quizFinished,
+    }))
+  );
+
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
   const [showCorrect, setShowCorrect] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackCorrect, setFeedbackCorrect] = useState(false);
+
+  // Get the current selections for multi-answer questions
+  const currentSelections = selectedAnswers[currentQuestionIndex] || [];
+  const currentQuestion = questions[currentQuestionIndex];
+  const isMultipleCorrect = currentQuestion?.is_multiple_correct;
+
   const handleAnswerSelect = (answer: string) => {
     if (!isAnswerSubmitted) {
-      setSelectedAnswer(answer);
+      if (isMultipleCorrect) {
+        // For multiple-correct questions, use the toggle function
+        toggleAnswerSelection(answer);
+      } else {
+        // For single-answer questions, use the original behavior
+        setSelectedAnswer(answer);
+      }
     }
   };
 
@@ -50,7 +72,31 @@ export default function Quiz() {
     setIsAnswerSubmitted(true);
     setShowCorrect(true);
 
-    const isCorrect = selectedAnswer === currentQuestion.correct_answer;
+    let isCorrect = false;
+
+    if (currentQuestion.is_multiple_correct) {
+      // For multiple correct questions
+      const selections = selectedAnswers[currentQuestionIndex] || [];
+
+      if (currentQuestion.correct_answers) {
+        // Check if all selections are correct and all correct answers are selected
+        const correctAnswersSet = new Set(currentQuestion.correct_answers);
+        const allSelectedAreCorrect = selections.every((answer) =>
+          correctAnswersSet.has(answer)
+        );
+        const allCorrectAreSelected = currentQuestion.correct_answers.every(
+          (answer) => selections.includes(answer)
+        );
+
+        isCorrect = allSelectedAreCorrect && allCorrectAreSelected;
+        submitMultipleAnswers(selections);
+      }
+    } else {
+      // For single answer questions
+      isCorrect = selectedAnswer === currentQuestion.correct_answer;
+      submitAnswer(selectedAnswer || "");
+    }
+
     setFeedbackCorrect(isCorrect);
     setShowFeedback(true);
 
@@ -58,9 +104,14 @@ export default function Quiz() {
     setTimeout(() => {
       setShowFeedback(false);
     }, 1500);
-
-    submitAnswer(selectedAnswer || "");
-  }, [currentQuestionIndex, questions, selectedAnswer, submitAnswer]);
+  }, [
+    currentQuestionIndex,
+    questions,
+    selectedAnswer,
+    submitAnswer,
+    submitMultipleAnswers,
+    selectedAnswers,
+  ]);
 
   const handleNext = () => {
     resetTimer();
@@ -76,12 +127,9 @@ export default function Quiz() {
     navigate("/");
   };
 
-
-  
-
   // Set default state when question changes
   useEffect(() => {
-    if(quizFinished){
+    if (quizFinished) {
       navigate("/results");
     }
     setSelectedAnswer(null);
@@ -97,7 +145,6 @@ export default function Quiz() {
     }
   }, [loading, questions.length, navigate, error]);
 
-
   if (error) {
     return <ErrorDisplay message={error} onGoHome={handleGoHome} />;
   }
@@ -111,10 +158,6 @@ export default function Quiz() {
     );
   }
 
-
-
-  const currentQuestion = questions[currentQuestionIndex];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 py-12 px-4 sm:px-6">
       <div className="max-w-3xl mx-auto">
@@ -122,7 +165,10 @@ export default function Quiz() {
           <DifficultyIndicator difficulty={currentQuestion.difficulty} />
           <div className="flex items-center text-white">
             <FaClock className="mr-1" />
-            <Timer handleSubmit={handleSubmit} isAnswerSubmitted={isAnswerSubmitted} />
+            <Timer
+              handleSubmit={handleSubmit}
+              isAnswerSubmitted={isAnswerSubmitted}
+            />
           </div>
         </div>
 
@@ -137,20 +183,37 @@ export default function Quiz() {
           category={currentQuestion.category}
           difficulty={currentQuestion.difficulty}
           showMeta={true}
+          isMultipleCorrect={currentQuestion.is_multiple_correct}
         />
 
-        <div className="bg-white rounded-xl  shadow-md p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+          {isMultipleCorrect && !isAnswerSubmitted && (
+            <div className="mb-4 p-2 bg-indigo-50 text-indigo-700 text-sm rounded">
+              Select all correct answers for this question.
+            </div>
+          )}
+
           <div className="space-y-3 md:grid md:grid-cols-2 md:gap-4">
             {currentQuestion.all_answers?.map((answer, index) => (
               <AnswerOption
                 key={answer}
                 answer={answer}
                 index={index}
-                isCorrect={answer === currentQuestion.correct_answer}
-                isSelected={selectedAnswer === answer}
+                isCorrect={
+                  currentQuestion.is_multiple_correct &&
+                  currentQuestion.correct_answers
+                    ? currentQuestion.correct_answers.includes(answer)
+                    : answer === currentQuestion.correct_answer
+                }
+                isSelected={
+                  isMultipleCorrect
+                    ? currentSelections.includes(answer)
+                    : selectedAnswer === answer
+                }
                 isAnswerSubmitted={isAnswerSubmitted}
                 showCorrect={showCorrect}
                 onSelect={() => handleAnswerSelect(answer)}
+                isMultipleChoice={isMultipleCorrect}
               />
             ))}
           </div>
@@ -164,7 +227,13 @@ export default function Quiz() {
 
         <ActionButtons
           isAnswerSubmitted={isAnswerSubmitted}
-          selectedAnswer={selectedAnswer}
+          selectedAnswer={
+            isMultipleCorrect
+              ? currentSelections.length > 0
+                ? "selected"
+                : null
+              : selectedAnswer
+          }
           onSubmit={handleSubmit}
           onNext={handleNext}
           onHome={handleGoHome}

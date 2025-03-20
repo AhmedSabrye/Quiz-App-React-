@@ -1,0 +1,59 @@
+Q.What is the capital of France:
+1.Berlin
+2.Madrid
+3.Paris (true)
+4.London
+
+Q.Which planet is known as the Red Planet:
+1.Venus
+2.Jupiter
+3.Saturn
+4.Mars (true)
+
+Q.Who painted the Mona Lisa:
+1.Vincent Van Gogh
+2.Leonardo da Vinci (true)
+3.Pablo Picasso
+4.Michelangelo
+
+Q.What is the largest ocean on Earth:
+1.Atlantic Ocean
+2.Indian Ocean
+3.Arctic Ocean
+4.Pacific Ocean (true)
+
+Q.Which element has the chemical symbol 'Au':
+1.Silver
+2.Gold (true)
+3.Aluminum
+4.Copper
+
+Q.What is the largest mammal in the world:
+1.African Elephant
+2.Giraffe
+3.Blue Whale (true)
+4.Polar Bear
+
+Q.Which language is used to style web pages:
+1.JavaScript
+2.HTML
+3.CSS (true)
+4.Python
+
+Q.What year did the Titanic sink:
+1.1905
+2.1912 (true)
+3.1920
+4.1931
+
+Q.Who wrote "Romeo and Juliet":
+1.Charles Dickens
+2.Jane Austen
+3.William Shakespeare (true)
+4.Mark Twain
+
+Q.Which of these is not a programming language:
+1.Python
+2.Java
+3.Excel (true)
+4.Ruby 

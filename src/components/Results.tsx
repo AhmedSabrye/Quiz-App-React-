@@ -6,17 +6,29 @@ import CategoryPerformance from "./subcomponents/results/CategoryPerformance";
 import ActionButtons from "./subcomponents/results/ActionButtons";
 import SocialSharing from "./subcomponents/results/SocialSharing";
 import QuestionReviewItem from "./subcomponents/results/QuestionReviewItem";
+import { useShallow } from "zustand/shallow";
 
 export default function Results() {
   const navigate = useNavigate();
   const {
     questions,
     userAnswers,
+    selectedAnswers,
     score,
     quizFinished,
     fetchQuestions,
     loading,
-  } = useQuizStore();
+  } = useQuizStore(
+    useShallow((state) => ({
+      questions: state.questions,
+      userAnswers: state.userAnswers,
+      selectedAnswers: state.selectedAnswers,
+      score: state.score,
+      quizFinished: state.quizFinished,
+      fetchQuestions: state.fetchQuestions,
+      loading: state.loading,
+    }))
+  );
 
   const [animateScore, setAnimateScore] = useState(false);
 
@@ -60,7 +72,25 @@ export default function Results() {
   // Group questions by category
   const categoriesData = questions.reduce((acc, question, index) => {
     const category = question.category;
-    const isCorrect = userAnswers[index] === question.correct_answer;
+    let isCorrect = false;
+
+    if (question.is_multiple_correct && question.correct_answers) {
+      // For multiple correct questions, check if selected answers match all correct answers
+      const selectedOptions = selectedAnswers[index] || [];
+      const correctAnswersSet = new Set(question.correct_answers);
+
+      const allSelectedAreCorrect = selectedOptions.every((answer) =>
+        correctAnswersSet.has(answer)
+      );
+      const allCorrectAreSelected = question.correct_answers.every((answer) =>
+        selectedOptions.includes(answer)
+      );
+
+      isCorrect = allSelectedAreCorrect && allCorrectAreSelected;
+    } else {
+      // For single answer questions
+      isCorrect = userAnswers[index] === question.correct_answer;
+    }
 
     if (!acc[category]) {
       acc[category] = { total: 0, correct: 0 };
@@ -109,16 +139,45 @@ export default function Results() {
 
             <div className="space-y-8">
               {questions.map((question, index) => {
-                const isCorrect =
-                  userAnswers[index] === question.correct_answer;
-                return (
-                  <QuestionReviewItem
-                    key={index}
-                    question={question}
-                    userAnswer={userAnswers[index]}
-                    isCorrect={isCorrect}
-                  />
-                );
+                let isCorrect = false;
+
+                if (question.is_multiple_correct && question.correct_answers) {
+                  // For multiple correct questions
+                  const selectedOptions = selectedAnswers[index] || [];
+                  const correctAnswersSet = new Set(question.correct_answers);
+
+                  const allSelectedAreCorrect = selectedOptions.every(
+                    (answer) => correctAnswersSet.has(answer)
+                  );
+                  const allCorrectAreSelected = question.correct_answers.every(
+                    (answer) => selectedOptions.includes(answer)
+                  );
+
+                  isCorrect = allSelectedAreCorrect && allCorrectAreSelected;
+
+                  return (
+                    <QuestionReviewItem
+                      key={index}
+                      question={question}
+                      userAnswer={userAnswers[index]}
+                      selectedAnswers={selectedOptions}
+                      isCorrect={isCorrect}
+                      isMultipleCorrect={true}
+                    />
+                  );
+                } else {
+                  // For single answer questions
+                  isCorrect = userAnswers[index] === question.correct_answer;
+
+                  return (
+                    <QuestionReviewItem
+                      key={index}
+                      question={question}
+                      userAnswer={userAnswers[index]}
+                      isCorrect={isCorrect}
+                    />
+                  );
+                }
               })}
             </div>
           </div>

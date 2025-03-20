@@ -1,5 +1,5 @@
 import React from "react";
-import { FaCheck, FaTimes } from "react-icons/fa";
+import { FaCheck, FaTimes, FaCheckSquare, FaRegSquare } from "react-icons/fa";
 
 interface AnswerOptionProps {
   answer: string;
@@ -9,6 +9,7 @@ interface AnswerOptionProps {
   showCorrect: boolean;
   onSelect: () => void;
   index?: number;
+  isMultipleChoice?: boolean;
 }
 
 const AnswerOption: React.FC<AnswerOptionProps> = ({
@@ -19,6 +20,7 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
   showCorrect,
   onSelect,
   index = 0,
+  isMultipleChoice = false,
 }) => {
   const getBackgroundClass = () => {
     if (!isAnswerSubmitted) {
@@ -52,7 +54,24 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
     return "";
   };
 
-  const letterOptions = ["A", "B", "C", "D", "E", "F"];
+  const getSelectionIndicator = () => {
+    if (isMultipleChoice) {
+      // For multiple choice questions, show checkbox style indicators
+      return isSelected ? (
+        <FaCheckSquare
+          className={`text-indigo-600 text-lg ${
+            isAnswerSubmitted ? "opacity-70" : ""
+          }`}
+        />
+      ) : (
+        <FaRegSquare className="text-gray-400 text-lg" />
+      );
+    } else {
+      // For single answer questions, use the letter indicators
+      const letterOptions = ["A", "B", "C", "D", "E", "F"];
+      return letterOptions[index] || "";
+    }
+  };
 
   return (
     <button
@@ -67,18 +86,22 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
         }
         ${isAnswerSubmitted && !isSelected ? "cursor-default" : ""}
       `}
+      aria-checked={isSelected}
+      role={isMultipleChoice ? "checkbox" : "radio"}
     >
       <div className="flex items-center">
         <div
           className={`flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full mr-3
           ${
-            isSelected
+            isMultipleChoice
+              ? "bg-transparent"
+              : isSelected
               ? "bg-indigo-600 text-white"
               : "bg-gray-100 text-gray-700"
           }
         `}
         >
-          {letterOptions[index] || ""}
+          {getSelectionIndicator()}
         </div>
 
         <span className="flex-grow font-medium">{answer}</span>
